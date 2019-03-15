@@ -36,11 +36,25 @@ public class AudioPlayer {
         }
     }
 
-    public void change(double amount) {
-        player.seek(Duration.seconds(player.getCurrentTime().toSeconds() + amount));
+    public void pause() {
+        if (status == Status.PLAY) {
+            player.pause();
+            status = Status.PAUSE;
+        }
     }
 
-    public void getStatus() {
-        return status
+    public void stop() {
+        player.stop();
+        status = Status.STOP;
+    }
+
+    public void change(double amount) {
+        if (status == Status.PLAY) {
+            player.seek(Duration.seconds(player.getCurrentTime().toSeconds() + amount));
+        }
+    }
+
+    public Status getStatus() {
+        return status;
     }
 }

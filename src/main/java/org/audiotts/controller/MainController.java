@@ -31,7 +31,7 @@ public class MainController implements Initializable {
     private TextArea textArea;
 
     @FXML
-    private Button btnPlay, btnProcess;
+    private Button btnPlay, btnStop, btnProcess, forwardSmall, forwardLarge, reverseSmall, reverseLarge;
 
     @FXML
     HBox mediaControl, processControl;
@@ -81,10 +81,29 @@ public class MainController implements Initializable {
         });
 
         btnPlay.setOnMouseClicked((e) -> {
-            String file = audioList.getSelectionModel().getSelectedItem();
-            player.setFile(Global.APP_AUDIO_PATH + file);
-            player.play();
+            if (player.getStatus() == AudioPlayer.Status.STOP) {
+                String file = audioList.getSelectionModel().getSelectedItem();
+                player.setFile(Global.APP_AUDIO_PATH + file);
+                player.play();
+                btnPlay.setText("Pause");
+            } else if (player.getStatus() == AudioPlayer.Status.PLAY) {
+                player.pause();
+                btnPlay.setText("Resume");
+            } else if (player.getStatus() == AudioPlayer.Status.PAUSE) {
+                player.play();
+                btnPlay.setText("Pause");
+            }
         });
+
+        btnStop.setOnMouseClicked((e) -> {
+            player.stop();
+            btnPlay.setText("Play");
+        });
+
+        forwardSmall.setOnMouseClicked((e) -> { player.change(5); });
+        forwardLarge.setOnMouseClicked((e) -> { player.change(15); });
+        reverseSmall.setOnMouseClicked((e) -> { player.change(-5); });
+        reverseLarge.setOnMouseClicked((e) -> { player.change(-15); });
 
         textArea.setOnMouseClicked((e) -> {
             processControl.setVisible(true);
