@@ -1,3 +1,8 @@
-.button {
-    -fx-font-weight: bold;
+.custom-jfx-button-raised {
+    -fx-padding: 0.2em 0.2em;
+    -fx-font-size: 12.0px;
+    -jfx-button-type: RAISED;
+    -fx-background-color: rgb(102.0, 153.0, 102.0);
+    -fx-pref-width: 60.0;
+    -fx-text-fill: WHITE;
 }

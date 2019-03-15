@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -36,24 +35,23 @@
             </MenuBar>
             <HBox maxHeight="1.7976931348623157E308" prefHeight="282.0" prefWidth="715.0" VBox.vgrow="ALWAYS">
                <children>
-                  <ListView fx:id="audioList" editable="true" maxHeight="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" />
+                  <JFXListView fx:id="audioList" />
                   <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <TextArea fx:id="textArea" maxHeight="1.7976931348623157E308" prefHeight="329.0" prefWidth="755.0" text="Test area&#10;" VBox.vgrow="ALWAYS" />
+                        <JFXTextArea fx:id="textArea" VBox.vgrow="ALWAYS" />
                         <HBox fx:id="processControl" alignment="CENTER" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                            <children>
-                              <Button fx:id="btnProcess" mnemonicParsing="false" text="Process" />
-                              <JFXButton />
+                              <JFXButton fx:id="btnProcess" text="Process" />
                            </children>
                         </HBox>
                         <HBox fx:id="mediaControl" alignment="CENTER" minHeight="-Infinity" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                            <children>
-                              <Button fx:id="reverseLarge" mnemonicParsing="false" text="&lt;&lt;" />
-                              <Button fx:id="reverseSmall" mnemonicParsing="false" text="&lt;" />
-                              <Button fx:id="btnPlay" mnemonicParsing="false" text="Play" />
-                              <Button fx:id="btnStop" mnemonicParsing="false" text="Stop" />
-                              <Button fx:id="forwardSmall" mnemonicParsing="false" text="&gt;" />
-                              <Button fx:id="forwardLarge" mnemonicParsing="false" text="&gt;&gt;" />
+                              <JFXButton fx:id="reverseLarge" text="&lt;&lt;" />
+                              <JFXButton fx:id="reverseSmall" text="&lt;" />
+                              <JFXButton fx:id="btnPlay" text="Play" />
+                              <JFXButton fx:id="btnStop" text="Stop" />
+                              <JFXButton fx:id="forwardSmall" text="&gt;" />
+                              <JFXButton fx:id="forwardLarge" />
                            </children>
                         </HBox>
                      </children>

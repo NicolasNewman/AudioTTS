@@ -6,6 +6,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextArea;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,13 +25,13 @@ import org.audiotts.classes.TTSManager;
 public class MainController implements Initializable {
 
     @FXML
-    private ListView<String> audioList;
+    private JFXListView<String> audioList;
 
     @FXML
-    private TextArea textArea;
+    private JFXTextArea textArea;
 
     @FXML
-    private Button btnPlay, btnStop, btnProcess, forwardSmall, forwardLarge, reverseSmall, reverseLarge;
+    private JFXButton btnPlay, btnStop, btnProcess, forwardSmall, forwardLarge, reverseSmall, reverseLarge;
 
     @FXML
     HBox mediaControl, processControl;
