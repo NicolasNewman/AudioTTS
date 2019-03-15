@@ -19,9 +19,6 @@ import org.audiotts.classes.AudioPlayer;
 import org.audiotts.classes.FileWatcher;
 import org.audiotts.classes.TTSManager;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 public class MainController implements Initializable {
 
     @FXML
@@ -64,7 +61,7 @@ public class MainController implements Initializable {
         File[] listOfFiles = folder.listFiles();
         ArrayList<String> audioFiles = new ArrayList<>();
 
-        for (File f : listOfFiles) {
+        for (File f : listOfFiles != null ? listOfFiles : new File[0]) {
             if (f.isFile() && f.getName().contains(Global.AUDIO_FILE_TYPE)) {
                 audioFiles.add(f.getName());
             }
@@ -100,10 +97,10 @@ public class MainController implements Initializable {
             btnPlay.setText("Play");
         });
 
-        forwardSmall.setOnMouseClicked((e) -> { player.change(5); });
-        forwardLarge.setOnMouseClicked((e) -> { player.change(15); });
-        reverseSmall.setOnMouseClicked((e) -> { player.change(-5); });
-        reverseLarge.setOnMouseClicked((e) -> { player.change(-15); });
+        forwardSmall.setOnMouseClicked((e) -> { player.setPosition(5); });
+        forwardLarge.setOnMouseClicked((e) -> { player.setPosition(15); });
+        reverseSmall.setOnMouseClicked((e) -> { player.setPosition(-5); });
+        reverseLarge.setOnMouseClicked((e) -> { player.setPosition(-15); });
 
         textArea.setOnMouseClicked((e) -> {
             processControl.setVisible(true);

@@ -48,9 +48,15 @@ public class AudioPlayer {
         status = Status.STOP;
     }
 
-    public void change(double amount) {
+    public void setPosition(double amount) {
         if (status == Status.PLAY) {
             player.seek(Duration.seconds(player.getCurrentTime().toSeconds() + amount));
+        }
+    }
+
+    public void setRate(double rate) {
+        if (status == Status.PLAY) {
+            player.setRate(rate);
         }
     }
 

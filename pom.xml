@@ -50,6 +50,16 @@
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-texttospeech</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.jfoenix</groupId>
+            <artifactId>jfoenix</artifactId>
+            <version>9.0.8</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jfxtras</groupId>-->
+            <!--<artifactId>jmetro</artifactId>-->
+            <!--<version>5.2</version>-->
+        <!--</dependency>-->
     </dependencies>
     <build>
         <plugins>
@@ -59,6 +69,8 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>11</release>
+                    <!--<source>1.8</source>-->
+                    <!--<target>1.8</target>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -73,6 +85,9 @@
                             <goal>java</goal>
                         </goals>
                     </execution>
+                    <!--<execution>-->
+                        <!--<goals><goal>java</goal></goals>-->
+                    <!--</execution>-->
                 </executions>
                 <configuration>
                     <mainClass>org.audiotts.application.MainApp</mainClass>
