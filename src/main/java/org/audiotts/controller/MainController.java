@@ -46,7 +46,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        manager = new TTSManager();
+        manager = new TTSManager(this);
         player = new AudioPlayer();
 
         startWatcher();
@@ -83,6 +83,7 @@ public class MainController implements Initializable {
             int indx = audioList.getItems().size();
             String name = filenameField.getText().length() != 0 ? filenameField.getText() : ("audio-" + (indx+1));
             manager.processText(text, name);
+            btnProcess.setDisable(true);
         });
 
         btnPlay.setOnMouseClicked((e) -> {
@@ -139,5 +140,10 @@ public class MainController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void toggleProcess() {
+        if (btnProcess.isDisable()) { btnProcess.setDisable(false); }
+        else { btnProcess.setDisable(true); }
     }
 }

@@ -1,7 +1,9 @@
 package org.audiotts.classes;
 
+import org.audiotts.application.Global;
 import org.audiotts.controller.MainController;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -29,12 +31,10 @@ public class FileWatcher extends Thread {
         }
     }
 
-    public void startWatcher() throws InterruptedException {
+    private void startWatcher() throws InterruptedException {
         WatchKey watchKey;
         while ((watchKey = watchService.take()) != null && !shutdown) {
-            System.out.println(shutdown + " 1");
             for (WatchEvent<?> event : watchKey.pollEvents()) {
-                System.out.println(shutdown + " 2");
                 controller.fillAudioList();
                 System.out.println("Event kind: " + event.kind() + "\nFile efffected:" + event.context());
             }

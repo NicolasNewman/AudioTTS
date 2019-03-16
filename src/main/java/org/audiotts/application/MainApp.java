@@ -2,6 +2,8 @@ package org.audiotts.application;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,13 +26,15 @@ public class MainApp extends Application {
 
         scene.getStylesheets().add("/styles/Styles.css");
         
-        stage.setTitle("JavaFX and Maven");
+        stage.setTitle("AudioTTS");
         stage.setScene(scene);
         stage.show();
 
         stage.setOnCloseRequest((e) -> {
             MainController controller = loader.getController();
             controller.shutdown();
+            Platform.exit();
+            System.exit(0);
         });
     }
 
@@ -41,12 +45,10 @@ public class MainApp extends Application {
     public static void verifyDataExists() {
         File appDir = new File(Global.APP_PATH);
         File audioDir = new File(Global.APP_AUDIO_PATH);
-        if (!appDir.exists()) {
-            appDir.mkdirs();
-        }
-        if (!audioDir.exists()) {
-            audioDir.mkdirs();
-        }
+        File dataDir = new File(Global.APP_DATA_PATH);
+        if (!appDir.exists()) { appDir.mkdirs(); }
+        if (!audioDir.exists()) { audioDir.mkdirs(); }
+        if (!dataDir.exists()) { dataDir.mkdirs(); }
     }
 
     /**
