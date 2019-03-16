@@ -1,5 +1,6 @@
 package org.audiotts.controller;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import org.audiotts.application.Global;
@@ -39,6 +41,9 @@ public class MainController implements Initializable {
 
     @FXML
     private HBox mediaControl, processControl;
+
+    @FXML
+    private MenuItem menuAudioDir;
 
     private TTSManager manager;
     private FileWatcher watcher;
@@ -70,7 +75,7 @@ public class MainController implements Initializable {
 
         for (File f : listOfFiles != null ? listOfFiles : new File[0]) {
             if (f.isFile() && f.getName().contains(Global.AUDIO_FILE_TYPE)) {
-                audioFiles.add(f.getName());
+                audioFiles.add(f.getName().replace(Global.AUDIO_FILE_TYPE, ""));
             }
         }
         ObservableList<String> songList = FXCollections.observableArrayList(audioFiles);
@@ -87,18 +92,36 @@ public class MainController implements Initializable {
         });
 
         btnPlay.setOnMouseClicked((e) -> {
-            if (player.getStatus() == AudioPlayer.Status.STOP) {
-                String file = audioList.getSelectionModel().getSelectedItem();
-                player.setFile(Global.APP_AUDIO_PATH + file);
-                player.play();
-                btnPlay.setText("Pause");
-            } else if (player.getStatus() == AudioPlayer.Status.PLAY) {
-                player.pause();
-                btnPlay.setText("Resume");
-            } else if (player.getStatus() == AudioPlayer.Status.PAUSE) {
-                player.play();
-                btnPlay.setText("Pause");
+            switch (player.getStatus()) {
+                case PLAY:
+                    player.pause();
+                    btnPlay.setText("Resume");
+                    break;
+                case PAUSE:
+                    player.play();
+                    btnPlay.setText("Pause");
+                    break;
+                case STOP:
+                    String file = audioList.getSelectionModel().getSelectedItem().concat(Global.AUDIO_FILE_TYPE);
+                    player.setFile(Global.APP_AUDIO_PATH + file);
+                    player.play();
+                    btnPlay.setText("Pause");
+                    break;
+                default:
+                    break;
             }
+//            if (player.getStatus() == AudioPlayer.Status.STOP) {
+//                String file = audioList.getSelectionModel().getSelectedItem();
+//                player.setFile(Global.APP_AUDIO_PATH + file);
+//                player.play();
+//                btnPlay.setText("Pause");
+//            } else if (player.getStatus() == AudioPlayer.Status.PLAY) {
+//                player.pause();
+//                btnPlay.setText("Resume");
+//            } else if (player.getStatus() == AudioPlayer.Status.PAUSE) {
+//                player.play();
+//                btnPlay.setText("Pause");
+//            }
         });
 
         btnStop.setOnMouseClicked((e) -> {
@@ -125,12 +148,10 @@ public class MainController implements Initializable {
             mediaControl.setManaged(true);
         });
 
-//        audioList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-//            @Override
-//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-//                System.out.println(newValue);
-//            }
-//        });
+        menuAudioDir.setOnAction((e) -> {
+            try { Desktop.getDesktop().open(new File(Global.APP_AUDIO_PATH)); }
+            catch (IOException e1) { e1.printStackTrace(); }
+        });
     }
 
     private void startWatcher() {
