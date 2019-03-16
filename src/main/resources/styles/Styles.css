@@ -6,3 +6,32 @@
     -fx-pref-width: 60.0;
     -fx-text-fill: WHITE;
 }
+
+.button {
+    -fx-padding: 0.3em 0.3em;
+    -fx-font-size: 12.0px;
+    -jfx-button-type: RAISED;
+    /*-fx-background-color: rgb(102.0, 153.0, 102.0);*/
+    -fx-pref-width: 60.0;
+    -fx-text-fill: WHITE;
+}
+
+.button-green {
+    -fx-background-color: rgb(102.0, 153.0, 102.0);
+}
+
+.button-red {
+    -fx-background-color: rgb(217,83,79);
+}
+
+.button-blue {
+    -fx-background-color: rgb(66,139,202);
+}
+
+.button-location {
+    -fx-pref-width: 30;
+}
+
+/*.list-view {*/
+    /*-fx-padding: 2em;*/
+/*}*/

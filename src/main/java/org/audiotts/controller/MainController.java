@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,7 +35,10 @@ public class MainController implements Initializable {
     private JFXButton btnPlay, btnStop, btnProcess, forwardSmall, forwardLarge, reverseSmall, reverseLarge;
 
     @FXML
-    HBox mediaControl, processControl;
+    private JFXTextField filenameField;
+
+    @FXML
+    private HBox mediaControl, processControl;
 
     private TTSManager manager;
     private FileWatcher watcher;
@@ -77,7 +81,8 @@ public class MainController implements Initializable {
         btnProcess.setOnMouseClicked((e) -> {
             String text = textArea.getText();
             int indx = audioList.getItems().size();
-            manager.processText(text, ("audio-" + (indx+1)));
+            String name = filenameField.getText().length() != 0 ? filenameField.getText() : ("audio-" + (indx+1));
+            manager.processText(text, name);
         });
 
         btnPlay.setOnMouseClicked((e) -> {
