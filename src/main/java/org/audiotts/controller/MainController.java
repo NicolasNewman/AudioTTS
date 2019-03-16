@@ -52,7 +52,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         manager = new TTSManager(this);
-        player = new AudioPlayer();
+        player = new AudioPlayer(this);
 
         startWatcher();
         fillAudioList();
@@ -166,5 +166,9 @@ public class MainController implements Initializable {
     public void toggleProcess() {
         if (btnProcess.isDisable()) { btnProcess.setDisable(false); }
         else { btnProcess.setDisable(true); }
+    }
+
+    public JFXButton getPlayButton() {
+        return btnPlay;
     }
 }
