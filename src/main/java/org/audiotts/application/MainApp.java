@@ -24,7 +24,7 @@ public class MainApp extends Application {
         
         Scene scene = new Scene(root);
 
-        scene.getStylesheets().add("/styles/Styles.css");
+        scene.getStylesheets().add("/styles/LightTheme.css");
         
         stage.setTitle("AudioTTS");
         stage.setScene(scene);

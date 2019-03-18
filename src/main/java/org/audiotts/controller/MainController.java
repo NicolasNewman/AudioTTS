@@ -1,29 +1,24 @@
 package org.audiotts.controller;
 
+import com.jfoenix.controls.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.HBox;
+import org.audiotts.application.Global;
+import org.audiotts.classes.AudioPlayer;
+import org.audiotts.classes.FileWatcher;
+import org.audiotts.classes.TTSManager;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.HBox;
-import org.audiotts.application.Global;
-import org.audiotts.classes.AudioPlayer;
-import org.audiotts.classes.FileWatcher;
-import org.audiotts.classes.TTSManager;
 
 public class MainController implements Initializable {
 
@@ -40,10 +35,16 @@ public class MainController implements Initializable {
     private JFXTextField filenameField;
 
     @FXML
-    private HBox mediaControl, processControl;
+    private HBox mediaControl, mediaPlayingControl, processControl;
 
     @FXML
     private MenuItem menuAudioDir;
+
+    @FXML
+    private Label timeCurrent, timeEnd;
+
+    @FXML
+    private JFXProgressBar timeProgress;
 
     private TTSManager manager;
     private FileWatcher watcher;
@@ -60,6 +61,8 @@ public class MainController implements Initializable {
 
         mediaControl.setVisible(false);
         mediaControl.setManaged(false);
+        mediaPlayingControl.setVisible(false);
+        mediaPlayingControl.setManaged(false);
     }
 
     public void shutdown() {
@@ -110,18 +113,6 @@ public class MainController implements Initializable {
                 default:
                     break;
             }
-//            if (player.getStatus() == AudioPlayer.Status.STOP) {
-//                String file = audioList.getSelectionModel().getSelectedItem();
-//                player.setFile(Global.APP_AUDIO_PATH + file);
-//                player.play();
-//                btnPlay.setText("Pause");
-//            } else if (player.getStatus() == AudioPlayer.Status.PLAY) {
-//                player.pause();
-//                btnPlay.setText("Resume");
-//            } else if (player.getStatus() == AudioPlayer.Status.PAUSE) {
-//                player.play();
-//                btnPlay.setText("Pause");
-//            }
         });
 
         btnStop.setOnMouseClicked((e) -> {
@@ -139,6 +130,8 @@ public class MainController implements Initializable {
             processControl.setManaged(true);
             mediaControl.setVisible(false);
             mediaControl.setManaged(false);
+            mediaPlayingControl.setVisible(false);
+            mediaPlayingControl.setManaged(false);
         });
 
         audioList.setOnMouseClicked((e) -> {
@@ -146,6 +139,8 @@ public class MainController implements Initializable {
             processControl.setManaged(false);
             mediaControl.setVisible(true);
             mediaControl.setManaged(true);
+            mediaPlayingControl.setVisible(false);
+            mediaPlayingControl.setManaged(false);
         });
 
         menuAudioDir.setOnAction((e) -> {
@@ -168,7 +163,12 @@ public class MainController implements Initializable {
         else { btnProcess.setDisable(true); }
     }
 
-    public JFXButton getPlayButton() {
-        return btnPlay;
-    }
+    public JFXButton getPlayButton() { return btnPlay; }
+    public HBox getMediaPlayingControl() { return mediaPlayingControl; }
+    public Label getTimeCurrent() { return timeCurrent; }
+    public Label getTimeEnd() { return timeEnd; }
+    public JFXTextArea getTextArea() { return textArea; }
+    public JFXListView getListView() { return audioList; }
+    public JFXProgressBar getTimeProgress() { return timeProgress; }
+
 }
