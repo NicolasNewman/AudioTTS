@@ -46,6 +46,9 @@ public class MainController implements Initializable {
     @FXML
     private JFXProgressBar timeProgress;
 
+    @FXML
+    private JFXComboBox<String> comboPlayback;
+
     private TTSManager manager;
     private FileWatcher watcher;
     private AudioPlayer player;
@@ -63,6 +66,8 @@ public class MainController implements Initializable {
         mediaControl.setManaged(false);
         mediaPlayingControl.setVisible(false);
         mediaPlayingControl.setManaged(false);
+
+        comboPlayback.getItems().addAll("x0.5", "x0.75", "x1", "x1.25", "x1.5");
     }
 
     public void shutdown() {
@@ -124,6 +129,12 @@ public class MainController implements Initializable {
         forwardLarge.setOnMouseClicked((e) -> { player.setPosition(15); });
         reverseSmall.setOnMouseClicked((e) -> { player.setPosition(-5); });
         reverseLarge.setOnMouseClicked((e) -> { player.setPosition(-15); });
+
+        comboPlayback.valueProperty().addListener((prop, old, val) -> {
+            comboPlayback.setPromptText(val);
+            double value = Double.parseDouble(val.replace("x", ""));
+            player.setRate(value);
+        });
 
         textArea.setOnMouseClicked((e) -> {
             processControl.setVisible(true);
