@@ -1,5 +1,6 @@
 package org.audiotts.classes;
 
+import javafx.application.Platform;
 import org.audiotts.application.Global;
 import org.audiotts.controller.MainController;
 
@@ -35,7 +36,7 @@ public class FileWatcher extends Thread {
         WatchKey watchKey;
         while ((watchKey = watchService.take()) != null && !shutdown) {
             for (WatchEvent<?> event : watchKey.pollEvents()) {
-                controller.fillAudioList();
+                Platform.runLater(() -> controller.fillAudioList());
                 System.out.println("Event kind: " + event.kind() + "\nFile efffected:" + event.context());
             }
             watchKey.reset();

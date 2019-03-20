@@ -2,6 +2,7 @@ package org.audiotts.classes;
 
 import com.google.cloud.texttospeech.v1.*;
 import com.google.protobuf.ByteString;
+import javafx.application.Platform;
 import org.audiotts.application.Global;
 import org.audiotts.controller.MainController;
 
@@ -41,7 +42,7 @@ public class TTSManager {
                 try (OutputStream out = new FileOutputStream(Global.APP_AUDIO_PATH + name + Global.AUDIO_FILE_TYPE)) {
                     out.write(audioContents.toByteArray());
                     System.out.println("Audio content written to file \"output.mp3\"");
-                    mainController.toggleProcess();
+                    Platform.runLater(() -> mainController.toggleProcess());
                 } catch (Exception e) {
                     System.out.println(e);
                 }

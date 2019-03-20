@@ -28,9 +28,12 @@ until finished
 End with an example of getting some data out of the system or using it for a little demo
 
 
-## Built With
+## Created With
 
 * [Maven](https://maven.apache.org/) - Dependency Management
+* [OpenJFX](https://openjfx.io/) - GUI framework
+* [Google Cloud](https://cloud.google.com/) - TTS and OCR framework
+* [JFoeniX](http://www.jfoenix.com/) - GUI theming
 
 ## Authors
 
@@ -39,18 +42,3 @@ End with an example of getting some data out of the system or using it for a lit
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Release History
-
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
-* 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
-* 0.0.1
-    * Work in progress
