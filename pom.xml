@@ -117,6 +117,50 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <version>1.7.25</version>
+                <executions>
+                    <execution>
+                        <id>l4j-gui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <outfile>shade/AudioTTS.exe</outfile>
+                            <!--<jar>target/${project.artifactId}-${project.version}.jar</jar>-->
+                            <jar>shade/audiotts.jar</jar>
+                            <!-- if <dontWrapJar>true</dontWrapJar> change to this conf <jar>${project.artifactId}-${project.version}.jar</jar> -->
+                            <dontWrapJar>false</dontWrapJar>
+                            <errTitle>AudioTTS</errTitle>
+                            <classPath>
+                                <mainClass>org.audiotts.application.Launcher</mainClass>
+                            </classPath>
+                            <icon>src/main/resources/icons/icon.ico</icon>
+                            <jre>
+                                <minVersion>10</minVersion>
+                                <initialHeapSize>512</initialHeapSize>
+                                <maxHeapSize>1024</maxHeapSize>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>0.0.0.1</fileVersion>
+                                <txtFileVersion>0.0.0.1</txtFileVersion>
+                                <fileDescription>Text to speach software</fileDescription>
+                                <copyright>Copyright (c) 2019 </copyright>
+                                <companyName>comp</companyName>
+                                <productVersion>0.0.0.1</productVersion>
+                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productName>AudioTTS</productName>
+                                <internalName>audiotts</internalName>
+                                <originalFilename>AudioTTS.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
