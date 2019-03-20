@@ -7,11 +7,15 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.audiotts.controller.MainController;
 
 import java.io.File;
+import java.util.Map;
+import java.util.Optional;
 
 
 public class MainApp extends Application {
@@ -19,6 +23,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         verifyDataExists();
+        verifyEnvVar();
 
         stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/icons/icon.png")));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/scene.fxml"));
@@ -52,6 +57,37 @@ public class MainApp extends Application {
         if (!appDir.exists()) { appDir.mkdirs(); }
         if (!audioDir.exists()) { audioDir.mkdirs(); }
         if (!dataDir.exists()) { dataDir.mkdirs(); }
+    }
+
+    public static void verifyEnvVar() {
+        Map<String, String> env = System.getenv();
+        boolean pathSet = false;
+        boolean fileExists = false;
+        for (String envName : env.keySet()) {
+            if (envName.equals("GOOGLE_APPLICATION_CREDENTIALS")) {
+                pathSet = true;
+                File f = new File(env.get(envName));
+                fileExists = f.exists();
+            }
+        }
+
+        String headerText;
+        if (!pathSet) {
+            headerText = "Error: environment variable not set";
+        } else if (!fileExists){
+            headerText = "Error: file specified by GOOGLE_APPLICATION_CREDENTIALS not found";
+        } else {
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(headerText);
+        alert.setContentText("Please properly configure your path before proceeding. The software will now exit.");
+        alert.showAndWait();
+
+        Platform.exit();
+        System.exit(0);
     }
 
     /**
