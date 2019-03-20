@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.audiotts.controller.MainController;
 
@@ -19,12 +20,14 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         verifyDataExists();
 
+        stage.getIcons().add(new Image(MainApp.class.getResourceAsStream("/icons/icon.png")));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/scene.fxml"));
         Parent root = loader.load();
         
         Scene scene = new Scene(root);
 
         scene.getStylesheets().add("/styles/LightTheme.css");
+
         
         stage.setTitle("AudioTTS");
         stage.setScene(scene);
