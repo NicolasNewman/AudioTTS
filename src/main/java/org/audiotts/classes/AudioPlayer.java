@@ -83,6 +83,7 @@ public class AudioPlayer {
     public void play() {
         if (status == Status.PAUSE) {
             player.play();
+            player.setBalance(1.0);
             status = Status.PLAY;
             mediaDuration.play();
         }

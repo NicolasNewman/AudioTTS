@@ -11,8 +11,11 @@ import javafx.scene.layout.HBox;
 import org.audiotts.application.Global;
 import org.audiotts.classes.AudioPlayer;
 import org.audiotts.classes.FileWatcher;
+import org.audiotts.classes.SonicPlayer;
 import org.audiotts.classes.TTSManager;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -51,12 +54,12 @@ public class MainController implements Initializable {
 
     private TTSManager manager;
     private FileWatcher watcher;
-    private AudioPlayer player;
+    private SonicPlayer player;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         manager = new TTSManager(this);
-        player = new AudioPlayer(this);
+        player = new SonicPlayer(this);
 
         startWatcher();
         fillAudioList();
@@ -111,8 +114,12 @@ public class MainController implements Initializable {
                     break;
                 case STOP:
                     String file = audioList.getSelectionModel().getSelectedItem().concat(Global.AUDIO_FILE_TYPE);
-                    player.setFile(Global.APP_AUDIO_PATH + file);
-                    player.play();
+                    try {
+                        player.loadFile(Global.APP_AUDIO_PATH + file);
+                    } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e1) {
+                        e1.printStackTrace();
+                    }
+//                    player.play();
                     btnPlay.setText("Pause");
                     break;
                 default:
@@ -121,19 +128,40 @@ public class MainController implements Initializable {
         });
 
         btnStop.setOnMouseClicked((e) -> {
-            player.stop();
+            try {
+                player.stop();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             btnPlay.setText("Play");
         });
 
-        forwardSmall.setOnMouseClicked((e) -> { player.setPosition(5); });
-        forwardLarge.setOnMouseClicked((e) -> { player.setPosition(15); });
-        reverseSmall.setOnMouseClicked((e) -> { player.setPosition(-5); });
-        reverseLarge.setOnMouseClicked((e) -> { player.setPosition(-15); });
+        forwardSmall.setOnMouseClicked((e) -> {
+            try {
+                player.setPosition(5.0f);
+            } catch (IOException e1) { e1.printStackTrace(); }
+        });
+        forwardLarge.setOnMouseClicked((e) -> {
+            try {
+                player.setPosition(15.0f);
+            } catch (IOException e1) { e1.printStackTrace(); }
+        });
+        reverseSmall.setOnMouseClicked((e) -> {
+            try {
+                player.setPosition(-5.0f);
+            } catch (IOException e1) { e1.printStackTrace(); }
+        });
+        reverseLarge.setOnMouseClicked((e) -> {
+            try {
+                player.setPosition(-15.0f);
+            } catch (IOException e1) { e1.printStackTrace(); }
+        });
 
         comboPlayback.valueProperty().addListener((prop, old, val) -> {
             comboPlayback.setPromptText(val);
-            double value = Double.parseDouble(val.replace("x", ""));
-            player.setRate(value);
+            float value = Float.parseFloat(val.replace("x", "").concat("f"));
+            System.out.println("Setting speed: " + value);
+            player.setSpeed(value);
         });
 
         textArea.setOnMouseClicked((e) -> {

@@ -21,7 +21,7 @@ public class TTSManager {
                 .setSsmlGender(SsmlVoiceGender.NEUTRAL)
                 .build();
         audioConfig = AudioConfig.newBuilder()
-                .setAudioEncoding(AudioEncoding.MP3)
+                .setAudioEncoding(AudioEncoding.LINEAR16)
                 .build();
         this.mainController = mainController;
     }

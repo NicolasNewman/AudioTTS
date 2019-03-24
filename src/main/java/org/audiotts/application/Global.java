@@ -6,7 +6,7 @@ public class Global {
     public final static String APP_PATH = getOSPath();
     public final static String APP_AUDIO_PATH = APP_PATH + File.separator + "audio" + File.separator;
     public final static String APP_DATA_PATH = APP_PATH + File.separator + "data" + File.separator;
-    public final static String AUDIO_FILE_TYPE = ".mp3";
+    public final static String AUDIO_FILE_TYPE = ".wav";
 
     /**
      * Gets the game data path based on which OS the user is on
