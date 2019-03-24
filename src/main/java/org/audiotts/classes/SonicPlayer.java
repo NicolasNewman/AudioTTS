@@ -1,5 +1,11 @@
 package org.audiotts.classes;
 
+import com.sun.tools.javac.Main;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.util.Duration;
 import org.audiotts.controller.MainController;
 import org.audiotts.sonic.Sonic;
 
@@ -20,6 +26,9 @@ public class SonicPlayer {
     private float speed = 1.0f;
     private String path;
     private float timeSum = 0.0f;
+    private long totalBytes;
+    private float totalSeconds;
+    private Timeline mediaDuration;
 
     public enum Status {
         PLAY, PAUSE, STOP
@@ -38,6 +47,9 @@ public class SonicPlayer {
         format = stream.getFormat();
         sampleRate = (int)format.getSampleRate();
         numChannels = format.getChannels();
+        totalBytes = stream.getFrameLength();
+        totalSeconds = (stream.getFrameLength() / stream.getFormat().getFrameRate());
+        controller.getTimeEnd().setText(Double.toString(Math.floor(totalSeconds)));
 
         SourceDataLine.Info info = new DataLine.Info(SourceDataLine.class, format, ((int)stream.getFrameLength()*format.getFrameSize()));
         line = (SourceDataLine)AudioSystem.getLine(info);
@@ -45,6 +57,20 @@ public class SonicPlayer {
         line.start();
         status = Status.PLAY;
         stream.mark(Integer.MAX_VALUE);
+
+        controller.getMediaPlayingControl().setVisible(true);
+        controller.getMediaPlayingControl().setManaged(true);
+        controller.getTextArea().setDisable(true);
+        controller.getListView().setDisable(true);
+
+        mediaDuration = new Timeline(new KeyFrame(Duration.seconds(0.5), (e) -> {
+            double time = Math.ceil(line.getLongFramePosition() / (line.getFormat().getFrameRate() * speed) + timeSum);
+            controller.getTimeCurrent().setText(Double.toString(time));
+            controller.getTimeProgress().setProgress(time / totalSeconds);
+        }));
+        mediaDuration.setCycleCount(Animation.INDEFINITE);
+        mediaDuration.play();
+
         startThread();
     }
 
@@ -63,16 +89,23 @@ public class SonicPlayer {
     }
 
     public void stop() throws IOException {
+        controller.getTextArea().setDisable(false);
+        controller.getListView().setDisable(false);
+        mediaDuration.stop();
+
+        controller.getTimeCurrent().setText(Double.toString(Math.floor(totalSeconds)));
+        controller.getPlayButton().setText("Play");
+        controller.getTimeProgress().setProgress(1f);
+
         status = Status.STOP;
         line.stop();
-//        line.drain();
+        line.drain();
+        line.close();
         stream.close();
     }
 
     public void setPosition(float amount) throws IOException {
         if (status == Status.PLAY) {
-            long totalBytes = stream.getFrameLength();
-            float totalSeconds = (stream.getFrameLength() / stream.getFormat().getFrameRate());
             float current = (line.getLongFramePosition() / (line.getFormat().getFrameRate() * speed));
             float current2 = current + timeSum;
             if (amount < 0 && current2+amount < 0) {
@@ -133,6 +166,13 @@ public class SonicPlayer {
                     }
                 }
             } while(numRead > 0 && status != Status.STOP);
+            Platform.runLater(() -> {
+                try {
+                    stop();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         });;
         songThread.start();
     }
